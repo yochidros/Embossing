@@ -3,6 +3,19 @@ import os
 import encoder
 import decoder
 import embossing
+import textwrap
+
+
+def _printBanner():
+    string = textwrap.dedent('''
+     _____           _                   _
+    | ____|_ __ ___ | |__   ___  ___ ___(_)_ __   __ _
+    |  _| | '_ ` _ \| '_ \ / _ \/ __/ __| | '_ \ / _` |
+    | |___| | | | | | |_) | (_) \__ \__ \ | | | | (_| |
+    |_____|_| |_| |_|_.__/ \___/|___/___/_|_| |_|\__, |
+                                                 |___/
+    ''')
+    print(string)
 
 
 def initialize():
@@ -16,7 +29,7 @@ def initialize():
         if answer is 'y' or answer is 'yes':
             apply()
         else:
-            print('Initialize is Done!! :\)')
+            print('Initialize is Done!! 🐶')
 
 
 def apply():
@@ -43,8 +56,11 @@ if __name__ == '__main__':
 
     command = sys.argv[1]
     if command == 'apply':
+        _printBanner()
         apply()
     elif command == 'show':
+        _printBanner()
         show()
     elif command == 'init':
+        _printBanner()
         initialize()
