@@ -27,4 +27,8 @@ def createInfo():
         f.write(_name)
         f.write(str.encode('\n'))
         f.write(_password)
+        f.write(str.encode('\n'))
         print('Encrypt Done Successfuly!!🍻')
+        return True
+
+    return False
