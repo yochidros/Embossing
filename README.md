@@ -2,7 +2,12 @@
 ![](https://s3-ap-northeast-1.amazonaws.com/projecthuffmancode/images/yochidros-embossing.png)
 
 ## Install
-` git clone https://github.com/yochidros/My-Kintai `
+``` 
+    $ git clone https://github.com/yochidros/Embossing
+    $ cd Embossing/  
+    $ ./bin/activate
+    (Embossing) $ pip install -r requirements.txt
+```
 
 ## USAGE
 ```
