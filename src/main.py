@@ -6,7 +6,7 @@ import embossing
 import textwrap
 
 
-def _printBanner():
+def __printBanner():
     string = textwrap.dedent('''
      _____           _                   _
     | ____|_ __ ___ | |__   ___  ___ ___(_)_ __   __ _
@@ -18,7 +18,22 @@ def _printBanner():
     print(string)
 
 
-def initialize():
+def __printHelp():
+    __printBanner()
+    print("USAGE: python main.py [apply, show, init]")
+    string = textwrap.dedent('''
+    How:
+        embossing by using jobcan(https://ssl.jobcan.jp/login/pc-employee/)
+
+    Command:
+        show    show screenshot Attendance record.
+        apply   do embossing
+        init    initialize user data.
+    ''')
+    print(string)
+
+
+def __initialize():
     print('Start Initialize ...')
     if not encoder.createInfo():
         print('Error: couldn\'t initialize.')
@@ -27,12 +42,12 @@ def initialize():
         print('Do you want to apply? (y/n)')
         answer = input()
         if answer is 'y' or answer is 'yes':
-            apply()
+            __apply()
         else:
             print('Initialize is Done!! 🐶')
 
 
-def apply():
+def __apply():
     path = '../.kintai_info'
     if os.path.exists(path):
         info = decoder.decodeInfo(path)
@@ -43,7 +58,7 @@ def apply():
         sys.exit(0)
 
 
-def show():
+def __show():
     print("Sorry. not implement..")
     sys.exit(0)
 
@@ -56,11 +71,13 @@ if __name__ == '__main__':
 
     command = sys.argv[1]
     if command == 'apply':
-        _printBanner()
-        apply()
+        __printBanner()
+        __apply()
     elif command == 'show':
-        _printBanner()
-        show()
+        __printBanner()
+        __show()
     elif command == 'init':
-        _printBanner()
-        initialize()
+        __printBanner()
+        __initialize()
+    elif command == '-h' or command == 'help':
+        __printHelp()

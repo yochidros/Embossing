@@ -1,4 +1,4 @@
-import os, sys, time
+import os, time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys as Keys
 from selenium.webdriver.support.ui import WebDriverWait
@@ -6,7 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
 
-def _embossing(url, info):
+def __embossing(url, info):
     driver = webdriver.PhantomJS(service_log_path=os.path.devnull)
 
     driver.get(url)
@@ -40,4 +40,4 @@ def _embossing(url, info):
 
 def applyEmbossing(info):
     url = 'https://ssl.jobcan.jp/login/pc-employee/'
-    return _embossing(url, info)
+    return __embossing(url, info)
