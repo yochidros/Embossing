@@ -54,7 +54,7 @@ def __apply():
         if embossing.applyEmbossing(info):
             print("Embossing is Successfully!🍻")
     else:
-        print("Sorry. not implement..")
+        print("Error: couldn't find " + path)
         sys.exit(0)
 
 
