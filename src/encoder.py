@@ -13,19 +13,18 @@ def createInfo():
         print("ERROR: your input data is invalid!!")
         sys.exit(1)
 
-        auth_key = AuthKey.generate_auth_key()
-        cipher = Chipher.AESCipher(auth_key)
+    auth_key = AuthKey.generate_auth_key()
+    cipher = Chipher.AESCipher(auth_key)
 
-        _companyId = cipher.encrypt(__companyId)
-        _name = cipher.encrypt(__name)
-        _password = cipher.encrypt(__password)
+    _companyId = cipher.encrypt(__companyId)
+    _name = cipher.encrypt(__name)
+    _password = cipher.encrypt(__password)
 
-        with open('.kintai_info', 'wb') as f:
-            f.write(str.encode(auth_key + '\n'))
-            f.write(_companyId)
-            f.write(str.encode('\n'))
-            f.write(_name)
-            f.write(str.encode('\n'))
-            f.write(_password)
-            print('Encrypt Done Successfuly!!🍻')
-        do decoder from path
+    with open('../.kintai_info', 'wb') as f:
+        f.write(str.encode(auth_key + '\n'))
+        f.write(_companyId)
+        f.write(str.encode('\n'))
+        f.write(_name)
+        f.write(str.encode('\n'))
+        f.write(_password)
+        print('Encrypt Done Successfuly!!🍻')

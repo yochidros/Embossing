@@ -3,15 +3,12 @@ import os
 import encoder
 import decoder
 
-
 def main():
     path = './.kintai_info'
     if os.path.exists(path):
         decoder.decodeInfo(path) 
-        # do decoder from path
     else:
-        # do create info
-        #encoder.createInfo()
+        encoder.createInfo()
 
-if __name__ == "__name__":
+if __name__ == '__main__':
     main()
