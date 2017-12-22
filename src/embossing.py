@@ -1,12 +1,12 @@
 import os, sys, time
 from selenium import webdriver
-from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.keys import Keys as Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
-def scraping(url):
+
+def _embossing(url, info):
     driver = webdriver.PhantomJS(service_log_path=os.path.devnull)
 
     driver.get(url)
@@ -18,10 +18,10 @@ def scraping(url):
     # get element input password
     input_password = driver.find_element_by_id('password')
 
-    #send infomation
-    input_company.send_keys('Nagisa')
-    input_email.send_keys('miyazawa@nagisa-inc.jp')
-    input_password.send_keys('J1DvhNxt')
+    # send infomation
+    input_company.send_keys(info[0])
+    input_email.send_keys(info[1])
+    input_password.send_keys(info[2])
     
     # push button
     input_password.send_keys(Keys.ENTER)
@@ -29,18 +29,15 @@ def scraping(url):
     WebDriverWait(driver, 30).until(
         EC.visibility_of_element_located((By.CLASS_NAME, 'aditBtn'))
     )
-    driver.save_screenshot('entrance.png')
     button = driver.find_element_by_class_name('aditBtn')
     button.click()
 
     time.sleep(2)
-    driver.save_screenshot('result.png')
     
     driver.close()
-    print('end')
-    sys.exit(0)
+    return True
 
 
-if __name__ == '__main__':
+def applyEmbossing(info):
     url = 'https://ssl.jobcan.jp/login/pc-employee/'
-    scraping(url)
+    return _embossing(url, info)

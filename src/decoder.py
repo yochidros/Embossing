@@ -1,5 +1,6 @@
 import Chipher
 
+
 def decodeInfo(path):
     is_read = False
     with open(path, 'rb') as f:
@@ -10,8 +11,15 @@ def decodeInfo(path):
         is_read = True
 
     if is_read:
-        print(auth_key)
-        print(company_id)
-        print(email)
-        print(password)
+        auth_key = auth_key.decode()
+        auth_key = auth_key[:len(auth_key)]
 
+        chipher = Chipher.AESCipher(auth_key)
+
+        company_id = chipher.decrypt(company_id)
+        email = chipher.decrypt(email)
+        password = chipher.decrypt(password)
+
+        return [company_id, email, password]
+    else:
+        print("Error: couldn't find " + path)
