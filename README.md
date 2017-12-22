@@ -1,5 +1,21 @@
 # My Kintai 
+![](https://s3-ap-northeast-1.amazonaws.com/projecthuffmancode/images/yochidros-embossing.png)
 
+## Install
+` git clone https://github.com/yochidros/My-Kintai `
+
+## USAGE
+```
+USAGE: python main.py [apply, show, init]
+
+How:
+    embossing by using jobcan(https://ssl.jobcan.jp/login/pc-employee/)
+
+Command:
+    show    show screenshot Attendance record.
+    apply   do embossing
+    init    initialize user data.
+```
 ## Dependencies
  - python 3.6
  - pip 9.0.1
