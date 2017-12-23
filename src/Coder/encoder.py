@@ -1,6 +1,7 @@
 import sys
-import Chipher
-import AuthKey
+sys.path.append('../')
+from Chipher.AuthKey import generate_auth_key
+from Chipher.Chipher import AESCipher
 from getpass import getpass
 
 
@@ -12,10 +13,9 @@ def createInfo():
     if __companyId is '' or __name is '' or __password is '':
         print("ERROR: your input data is invalid!!")
         sys.exit(1)
-
-    auth_key = AuthKey.generate_auth_key()
-    cipher = Chipher.AESCipher(auth_key)
-
+      
+    auth_key = generate_auth_key()
+    cipher = AESCipher(auth_key)
     _companyId = cipher.encrypt(__companyId)
     _name = cipher.encrypt(__name)
     _password = cipher.encrypt(__password)

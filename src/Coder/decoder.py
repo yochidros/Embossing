@@ -1,4 +1,6 @@
-import Chipher
+import sys
+sys.path.append('../')
+from Chipher import Chipher
 
 
 def decodeInfo(path):
@@ -11,6 +13,7 @@ def decodeInfo(path):
         is_read = True
 
     if is_read:
+        
         auth_key = auth_key.decode()
         auth_key = auth_key[:len(auth_key)]
 

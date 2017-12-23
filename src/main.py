@@ -1,36 +1,9 @@
 import sys
 import os
-import encoder
-import decoder
-import embossing
-import textwrap
-
-
-def __printBanner():
-    string = textwrap.dedent('''
-     _____           _                   _
-    | ____|_ __ ___ | |__   ___  ___ ___(_)_ __   __ _
-    |  _| | '_ ` _ \| '_ \ / _ \/ __/ __| | '_ \ / _` |
-    | |___| | | | | | |_) | (_) \__ \__ \ | | | | (_| |
-    |_____|_| |_| |_|_.__/ \___/|___/___/_|_| |_|\__, |
-                                                 |___/
-    ''')
-    print(string)
-
-
-def __printHelp():
-    __printBanner()
-    print("USAGE: python main.py [apply, show, init]")
-    string = textwrap.dedent('''
-    How:
-        embossing by using jobcan(https://ssl.jobcan.jp/login/pc-employee/)
-
-    Command:
-        show    show screenshot Attendance record.
-        apply   do embossing
-        init    initialize user data.
-    ''')
-    print(string)
+from Coder import decoder, encoder
+from Embossing import embossing
+from Helper import helper
+from threading import Thread
 
 
 def __initialize():
@@ -39,7 +12,7 @@ def __initialize():
         print('Error: couldn\'t initialize.')
         sys.exit(1)
     else:
-        print('Do you want to apply? (y/n)')
+        print('Do you want to apply embossing? (y/n)')
         answer = input()
         if answer is 'y' or answer is 'yes':
             __apply()
@@ -47,20 +20,27 @@ def __initialize():
             print('Initialize is Done!! 🐶')
 
 
-def __apply():
+def __getInfo():
     path = '../.kintai_info'
     if os.path.exists(path):
         info = decoder.decodeInfo(path)
-        if embossing.applyEmbossing(info):
-            print("Embossing is Successfully!🍻")
+        return info
     else:
         print("Error: couldn't find " + path)
         sys.exit(0)
 
 
+def __apply(info):
+    if embossing.applyEmbossing(info):
+        print("Embossing is Successfully!🍻")
+
+
 def __show():
-    print("Sorry. not implement..")
-    sys.exit(0)
+    info = __getInfo()
+    if embossing.capture_Attendance(info): 
+        print("hello")
+    else:
+        sys.exit(0)
 
 
 if __name__ == '__main__':
@@ -71,13 +51,13 @@ if __name__ == '__main__':
 
     command = sys.argv[1]
     if command == 'apply':
-        __printBanner()
+        helper.printBanner()
         __apply()
     elif command == 'show':
-        __printBanner()
+        helper.printBanner()
         __show()
     elif command == 'init':
-        __printBanner()
+        helper.printBanner()
         __initialize()
     elif command == '-h' or command == 'help':
-        __printHelp()
+        helper.printHelp()
