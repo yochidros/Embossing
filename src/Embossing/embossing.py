@@ -11,7 +11,21 @@ __url = 'https://ssl.jobcan.jp/login/pc-employee/'
 
 
 def __capture(driver):
-    print(type(driver))
+    driver.get('https://ssl.jobcan.jp/employee/attendance')
+
+    try:
+        WebDriverWait(driver, 10).until(
+            EC.visibility_of_element_located((By.CLASS_NAME, 'page-title'))
+        )
+    except TimeoutException as error:
+        print('Error: couldn\'t load page.')
+        driver.close()
+        return False
+
+    driver.save_screenshot('attendance.png')
+
+    driver.close()
+    return True
 
 
 def capture_Attendance(info):
@@ -19,15 +33,13 @@ def capture_Attendance(info):
     if driver is None:
         return False
     else:
-        __capture(driver)
-        return True
+        return __capture(driver)
 
 
 def __login(url, info):
     driver = webdriver.PhantomJS(service_log_path=os.path.devnull)
 
     driver.get(url)
-
     try:
         # get element input company id
         input_company = driver.find_element_by_id('client_id')
@@ -41,9 +53,9 @@ def __login(url, info):
         sys.exit(1)
 
     # send infomation
-    input_company.send_keys(info[0])
-    input_email.send_keys(info[1])
-    input_password.send_keys(info[2])
+    input_company.send_keys(info[0].decode())
+    input_email.send_keys(info[1].decode())
+    input_password.send_keys(info[2].decode())
 
     # push button
     input_password.send_keys(Keys.ENTER)

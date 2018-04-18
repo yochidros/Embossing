@@ -3,7 +3,8 @@ import os
 from Coder import decoder, encoder
 from Embossing import embossing
 from Helper import helper
-from threading import Thread
+import subprocess
+import shutil
 
 
 def __initialize():
@@ -21,7 +22,7 @@ def __initialize():
 
 
 def __getInfo():
-    path = '../.kintai_info'
+    path = '/Users/yochio/yochio/python/Embossing/.kintai_info'
     if os.path.exists(path):
         info = decoder.decodeInfo(path)
         return info
@@ -30,15 +31,23 @@ def __getInfo():
         sys.exit(0)
 
 
-def __apply(info):
+def __apply():
+    info = __getInfo()
     if embossing.applyEmbossing(info):
         print("Embossing is Successfully!🍻")
 
 
 def __show():
     info = __getInfo()
-    if embossing.capture_Attendance(info): 
-        print("hello")
+    if embossing.capture_Attendance(info):
+
+        if os.path.exists('./attendance.png'):
+            shutil.copy2("./attendance.png", "../images/attendance.png")
+            os.remove('attendance.png')
+
+        # open screenshot
+        subprocess.run(['open', '../images/attendance.png'])
+        sys.exit(0)
     else:
         sys.exit(0)
 
