@@ -6,6 +6,8 @@ from selenium.webdriver.common.keys import Keys as Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
+import chromedriver_binary
 
 __url = 'https://ssl.jobcan.jp/login/pc-employee/'
 
@@ -35,9 +37,15 @@ def capture_Attendance(info):
     else:
         return __capture(driver)
 
+_chrome_path = '/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary'
 
 def __login(url, info):
-    driver = webdriver.PhantomJS(service_log_path=os.path.devnull)
+    # driver = webdriver.PhantomJS(service_log_path=os.path.devnull)
+    options = Options()
+    options.binary_location = _chrome_path
+    options.add_argument('--headless')
+    options.add_argument('window-size=1980,2400')
+    driver = webdriver.Chrome(chrome_options=options)
 
     driver.get(url)
     try:
