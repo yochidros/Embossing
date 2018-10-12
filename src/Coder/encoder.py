@@ -32,3 +32,27 @@ def createInfo():
         return True
 
     return False
+
+def createCommonIdInfo():
+    __email = input('please common ID email: ')
+    __password = getpass('Password: ')
+
+    if __email is '' or __password is '':
+        print("ERROR: your inputed data is invalid!!")
+        sys.exit(1)
+
+    auth_key = generate_auth_key()
+    cipher = AESCipher(auth_key)
+    _email = cipher.encrypt(__email)
+    _password = cipher.encrypt(__password)
+
+    with open('../.kintai_common_info', 'wb') as f:
+        f.write(str.encode(auth_key + '\n'))
+        f.write(_email)
+        f.write(str.encode('\n'))
+        f.write(_password)
+        f.write(str.encode('\n'))
+        print('Encrypt Done Successfuly!!🍺')
+        return True
+
+    return False

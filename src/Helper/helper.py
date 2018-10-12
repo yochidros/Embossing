@@ -24,5 +24,8 @@ def printHelp():
         show    show screenshot Attendance record.
         apply   do embossing
         init    initialize user data.
+        
+        commonInit initialize user data for common Id page.
+        applyCommon do embossing common id page.
     ''')
     print(string)

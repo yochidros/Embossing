@@ -1,5 +1,5 @@
 import base64
-from Crypto import Random
+import Crypto.Random 
 from Crypto.Cipher import AES
 
 
@@ -13,14 +13,14 @@ class AESCipher(object):
 
     def encrypt(self, raw_data):
         raw_data = self._pad(raw_data)
-        iv = Random.new().read(AES.block_size)
+        iv = Crypto.Random.new().read(AES.block_size)
         cipher = AES.new(self.key, AES.MODE_CBC, iv)
         return base64.b64encode(iv + cipher.encrypt(raw_data))
 
     def decrypt(self, enc):
         enc = base64.b64decode(enc)
         iv = enc[:AES.block_size]
-        cipher = AES.new(self.key, AES.MODE_CBC, iv)
+        cipher = AES.new(self.key, AES.MODE_CBC,iv)
         return self._unpad(cipher.decrypt(enc[AES.block_size:]))
 
     def _pad(self, passphrase):

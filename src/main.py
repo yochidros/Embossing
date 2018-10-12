@@ -6,14 +6,13 @@ from Helper import helper
 import subprocess
 import shutil
 
-
 def __initialize():
-    print('Start Initialize ...')
-    if not encoder.createInfo():
-        print('Error: couldn\'t initialize.')
+    print('Start common Initialize ...')
+    if not encoder.createCommonIdInfo():
+        print('Error: couldn\'t common initialize')
         sys.exit(1)
     else:
-        print('Do you want to apply embossing? (y/n)')
+        print('Do you want to apply embossing? as CommonID (y/n)')
         answer = input()
         if answer is 'y' or answer is 'yes':
             __apply()
@@ -22,9 +21,9 @@ def __initialize():
 
 
 def __getInfo():
-    path = '/Users/yochio/yochio/python/Embossing/.kintai_info'
+    path = '/Users/yochio/yochio/python/Embossing/.kintai_common_info'
     if os.path.exists(path):
-        info = decoder.decodeInfo(path)
+        info = decoder.decodeCommonInfo(path)
         return info
     else:
         print("Error: couldn't find " + path)
@@ -40,7 +39,6 @@ def __apply():
 def __show():
     info = __getInfo()
     if embossing.capture_Attendance(info):
-
         if os.path.exists('./attendance.png'):
             shutil.copy2("./attendance.png", "../images/attendance.png")
             os.remove('attendance.png')
@@ -68,5 +66,6 @@ if __name__ == '__main__':
     elif command == 'init':
         helper.printBanner()
         __initialize()
+
     elif command == '-h' or command == 'help':
         helper.printHelp()

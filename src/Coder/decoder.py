@@ -26,3 +26,25 @@ def decodeInfo(path):
         return [company_id, email, password]
     else:
         print("Error: couldn't find " + path)
+
+def decodeCommonInfo(path):
+    is_read = False
+    with open(path, 'rb') as f:
+        auth_key = f.readline()
+        email = f.readline()
+        password = f.readline()
+        is_read = True
+
+    if is_read:
+        
+        auth_key = auth_key.decode()
+        auth_key = auth_key[:len(auth_key)]
+
+        chipher = Chipher.AESCipher(auth_key)
+        email = chipher.decrypt(email)
+        password = chipher.decrypt(password)
+
+        return [email, password]
+    else:
+        print("Error: couldn't find " + path)
+
