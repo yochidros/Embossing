@@ -2,12 +2,11 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import chromedriver_binary
 
-chrome_path = '/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary'
+chrome_path = '/usr/local/bin/chromedriver'
 def testChromeHeadless():
     options = Options()
-    options.binary_location = chrome_path
     options.add_argument('--headless')
-    driver = webdriver.Chrome(chrome_options=options)
+    driver = webdriver.Chrome(chrome_path, chrome_options=options)
 
     driver.get("https://www.google.co.jp")
     html = driver.page_source

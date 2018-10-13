@@ -7,11 +7,10 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
-import chromedriver_binary
-
-__url = 'https://ssl.jobcan.jp/login/pc-employee/'
 
 __id_url = 'https://id.jobcan.jp/users/sign_in'
+
+_chrome_path = '/usr/local/bin/chromedriver'
 
 def __capture(driver):
     driver.get('https://ssl.jobcan.jp/employee/attendance')
@@ -40,18 +39,21 @@ def capture_Attendance(info):
         return __capture(driver)
 
 
-_chrome_path = '/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary'
 
-def __login(url, info):
+def getHeadlessChromeDriver():
     options = Options()
-    options.binary_location = _chrome_path
     options.add_argument('--headless')
+    options.add_argument('--disable-gpu')
     options.add_argument('--ignore-certificate-errors')
     options.add_argument('window-size=1980,2400')
-    options.add_argument('--ignore-certificate-errors')
     options.add_argument('--allow-running-insecure-content')
     options.add_argument('--disable-web-security')
-    driver = webdriver.Chrome(chrome_options=options)
+    options.add_argument('--disable-dev-shm-usage')
+    return  webdriver.Chrome(_chrome_path, chrome_options=options)
+    
+
+def __login(url, info):
+    driver = getHeadlessChromeDriver()
 
     print(url)
     driver.get(url)
@@ -64,7 +66,6 @@ def __login(url, info):
         input_password = driver.find_element_by_id('user_password')
 
     except NoSuchElementException as error:
-
         driver.close()
         print('Error: couldn\'t get page infomation')
         sys.exit(1)
@@ -78,7 +79,7 @@ def __login(url, info):
     input_password.send_keys(Keys.ENTER)
     try:
         WebDriverWait(driver, 10).until(
-            EC.visibility_of_element_located((By.CLASS_NAME, 'box-body'))
+            EC.visibility_of_element_located((By.CLASS_NAME, 'content-header'))
         )
     except TimeoutException as error:
         print(error)
@@ -88,6 +89,13 @@ def __login(url, info):
         driver = None
         return driver
 
+    print('Login Success!!')
+    return driver
+
+
+def __getEmboosngPage(driver): 
+    print('Try Go to Embossing page...')
+
     driver.get('https://ssl.jobcan.jp/jbcoauth/login')
     try:
         WebDriverWait(driver, 10).until(
@@ -96,17 +104,22 @@ def __login(url, info):
     except TimeoutException as error:
         print(error)
         print("can't login")
-        driver.save_screenshot('form.png')
+        driver.save_screenshot('form2.png')
         driver.close()
         driver = None
         return driver
 
+    print("Arrived Embossing page!")
+
     return driver
 
-def __embossing(driver):
 
-    button = driver.find_element_by_class_name('aditBtn')
-    button.click()
+def __embossing(driver):
+    driver = __getEmboosngPage(driver)
+
+    driver.save_screenshot('login-screen.png')
+    #button = driver.find_element_by_class_name('aditBtn')
+    #button.click()
 
     time.sleep(2)
 
@@ -115,7 +128,7 @@ def __embossing(driver):
 
 
 def applyEmbossing(info):
-    driver = __login(__url, info)
+    driver = __login(__id_url, info)
     if driver is None:
         return False
     else:

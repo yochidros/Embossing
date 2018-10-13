@@ -21,7 +21,7 @@ def __initialize():
 
 
 def __getInfo():
-    path = '/Users/yochio/yochio/python/Embossing/.kintai_common_info'
+    path = '/home/yochidrop/yochio/Embossing/.kintai_common_info'
     if os.path.exists(path):
         info = decoder.decodeCommonInfo(path)
         return info
@@ -44,7 +44,7 @@ def __show():
             os.remove('attendance.png')
 
         # open screenshot
-        subprocess.run(['open', '../images/attendance.png'])
+        subprocess.run(['xdg-open', '../images/attendance.png'])
         sys.exit(0)
     else:
         sys.exit(0)
