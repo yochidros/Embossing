@@ -1,3 +1,5 @@
 __pycache__/
 .kintai_info
+.kintai_common_info
+!images
 images/*
