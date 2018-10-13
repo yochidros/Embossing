@@ -13,9 +13,11 @@ __id_url = 'https://id.jobcan.jp/users/sign_in'
 _chrome_path = '/usr/local/bin/chromedriver'
 
 def __capture(driver):
+    driver = __getEmboosngPage(driver)
+
     driver.get('https://ssl.jobcan.jp/employee/attendance')
 
-    driver.save_screenshot('attendance.png')
+    driver.save_screenshot('attendanceIn.png')
     try:
         WebDriverWait(driver, 10).until(
             EC.visibility_of_element_located((By.CLASS_NAME, 'page-title'))
@@ -72,8 +74,8 @@ def __login(url, info):
 
 
     # send infomation
-    input_email.send_keys(info[0].decode())
-    input_password.send_keys(info[1].decode())
+    input_email.send_keys(info[0])
+    input_password.send_keys(info[1])
 
     # push button
     input_password.send_keys(Keys.ENTER)

@@ -8,7 +8,7 @@ import shutil
 
 def __initialize():
     print('Start common Initialize ...')
-    if not encoder.createCommonIdInfo():
+    if not encoder.createCommonIdInfo('.kintai_common_info'):
         print('Error: couldn\'t common initialize')
         sys.exit(1)
     else:
@@ -43,8 +43,14 @@ def __show():
             shutil.copy2("./attendance.png", "../images/attendance.png")
             os.remove('attendance.png')
 
-        # open screenshot
-        subprocess.run(['xdg-open', '../images/attendance.png'])
+        if sys.platform == "linux" or sys.platform == "linux2":
+            # open screenshot
+            subprocess.run(['xdg-open', '../images/attendance.png'])
+        elif sys.platform == "darwin":
+            subprocess.run(['open', '../images/attendance.png'])
+        else:
+            sys.exit(1)
+
         sys.exit(0)
     else:
         sys.exit(0)

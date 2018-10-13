@@ -1,39 +1,13 @@
 import sys
 sys.path.append('../')
-from Chipher.AuthKey import generate_auth_key
-from Chipher.Chipher import AESCipher
+from Cipher.AuthKey import generate_auth_key
+from Cipher.Cipher import AESCipher
 from getpass import getpass
+import os
+import base64
 
 
-def createInfo():
-    __companyId = input('please input your company ID: ')
-    __name = input('please input your email: ')
-    __password = getpass('Password: ')
-
-    if __companyId is '' or __name is '' or __password is '':
-        print("ERROR: your input data is invalid!!")
-        sys.exit(1)
-      
-    auth_key = generate_auth_key()
-    cipher = AESCipher(auth_key)
-    _companyId = cipher.encrypt(__companyId)
-    _name = cipher.encrypt(__name)
-    _password = cipher.encrypt(__password)
-
-    with open('../.kintai_info', 'wb') as f:
-        f.write(str.encode(auth_key + '\n'))
-        f.write(_companyId)
-        f.write(str.encode('\n'))
-        f.write(_name)
-        f.write(str.encode('\n'))
-        f.write(_password)
-        f.write(str.encode('\n'))
-        print('Encrypt Done Successfuly!!🍻')
-        return True
-
-    return False
-
-def createCommonIdInfo():
+def createCommonIdInfo(filename):
     __email = input('please common ID email: ')
     __password = getpass('Password: ')
 
@@ -41,13 +15,17 @@ def createCommonIdInfo():
         print("ERROR: your inputed data is invalid!!")
         sys.exit(1)
 
+    #binary
     auth_key = generate_auth_key()
-    cipher = AESCipher(auth_key)
+    iv = os.urandom(16)
+    cipher = AESCipher(auth_key,iv)
     _email = cipher.encrypt(__email)
     _password = cipher.encrypt(__password)
-
-    with open('../.kintai_common_info', 'wb') as f:
-        f.write(str.encode(auth_key + '\n'))
+    iv = base64.b64encode(iv).decode()
+    filename = "../" + filename 
+    with open(filename, 'wb') as f:
+        f.write(str.encode(auth_key.decode() + '\n'))
+        f.write(str.encode(iv + '\n'))
         f.write(_email)
         f.write(str.encode('\n'))
         f.write(_password)
@@ -56,3 +34,6 @@ def createCommonIdInfo():
         return True
 
     return False
+
+if __name__ == '__main__':
+    createCommonIdInfo('.test')
